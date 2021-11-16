@@ -1,13 +1,18 @@
 import telebot
 from pymongo import MongoClient
-bot = telebot.TeleBot("")
+
+
+bot = telebot.TeleBot("2101454517:AAF5mEiaceZ6fwdMT44kRqGMewki-AIF18c")
+
 class DataBase:
     def __init__(self):
-        cluster = MongoClient()
+        cluster = MongoClient("mongodb+srv://DFGProject:zxc212345@cluster0.xiytb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+        
         self.db = cluster["QuizBot"]
         self.users = self.db["Users"]
         self.questions = self.db["Quests"]
-        self.questions_count = len(list(self.questions_find({})))
+
+        self.questions_count = len(list(self.questions.find({})))
         
     def get_user(self, chat_id):
         user = self.users.find_one({"chat_id": chat_id})
@@ -30,23 +35,22 @@ class DataBase:
 
     def get_question(self, index):
         return self.questions.find_one({"id": index})
-
 db = DataBase()
-
 @bot.message_handler(commands=["start"])
+
 def start(message):
     user = db.get_user(message.chat_id)
     if user["is_passed"]:
         return
         bot.send_message(message.from_user.id, "Вы уже прошли данный тест. Жаль, но второй раз нельзя пройти.") 
     
-    if user["is_passing"]
+    if user["is_passing"]:
         return
         db.set_user(message.chat.id, {"question_index": 0, "is_passing": True})
     user = db.get_user(message.chat.id)
     post = get_question_message(user)
     if post is not None:
-        bot_send_message(message.from_user_id, post["text"],
+        bot_send_message_text(message.from_user_id, post["text"],
             reply_markup=post["keyboard"])
 
 @bot.callback_query_handler(func=lambda query: query.data.startswith("?ans"))
@@ -61,7 +65,7 @@ def answered(query):
     
     post = get_answered_message(user)
     if post is not None:
-        bot.edit_message_text(query.message.from_user_id, query.message_id, post["text"],
+        bot.edit_message_text(post["text"], query.message.from_user_id, query.message_id,
                     reply_markup=post["keyboard"])
 
 @bot.callback_query_handler(func=lambda query: query.data == "?next")
@@ -73,7 +77,7 @@ def next(query):
     user["question_index"] += 1
     db.set_user(query.message.chat.id, {"question_index": user["question_index"]})  
     if post is not None:
-        bot.edit_message_text(query.message.from_user, query.message_id, post["text"],
+        bot.edit_message_text(post["text"], query.message.chat.id, query.message_id, 
                     reply_markup=post["keyboard"])      
 
 
@@ -81,7 +85,7 @@ def get_question_message(user):
     if user["question_index"] == db.questions_count:
         count = 0
         for question_index, question in enumerate(db.question.find({})):
-            if question["correct"] == user["answers"][question_index]
+            if question["correct"] == user["answers"][question_index]:
                 count += 1
             percents = round(100 * count / db.questions_count)
             if percents < 40:
@@ -121,12 +125,12 @@ def get_question_message(user):
 def get_answered_message(user):
     question = db.get_question(user["question_index"])
     text = f"Вопрос №{user['question_index'] + 1}\n\n{question['text']}"
-    for answer_index, answer in enumerate(question["answers"])
+    for answer_index, answer in enumerate(question["answers"]):
         text += f"{chr(answer_index + 97)}) {answer}"
 
         if answer_index == question["correct"]:
             text += "✔️"
-        elif answer index == user["answers"][-1]:
+        elif answer_index == user["answers"][-1]:
             text += "🚫"
 
         text += "\n"
