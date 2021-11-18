@@ -17,9 +17,8 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)-7s %(name)s %(message)s')
 logging.getLogger().setLevel('DEBUG')
 
-TOKEN_FILE = 'token.txt'
-TOKEN = Path(TOKEN_FILE).read_text().strip()
-AUTHORIZED_USERS = ['makukha']
+
+TOKEN = ""
 
 DURATION = 5
 
@@ -54,16 +53,12 @@ def start(update, context):
     user = msg.from_user
     debug(f'Quiz bot entered by user: {user.id} @{user.username} "{user.first_name} {user.last_name}"')
 
-    if AUTHORIZED_USERS and user.username not in AUTHORIZED_USERS:
-        return
-
     if 'username' not in context.user_data:
         context.user_data['username'] = user.username
 
     msg.bot.send_message(msg.chat_id,
-        text=f'Давайте начнем тест. У вас будет {DURATION} минут на {len(QUESTIONS)} вопросов. Готовы?',
+        text=f'Приветствую вас в нашем универсальном боте SafetyBot | Бот безопасности. Давайте начнем тест. У вас будет {DURATION} минут на {len(QUESTIONS)} вопросов. Готовы?',
         reply_markup=telegram.ReplyKeyboardMarkup([['Начать тест']]))
-
 
 def common_message(update, context):
     """General response handler"""
@@ -71,9 +66,6 @@ def common_message(update, context):
     msg = update.message
     user = msg.from_user
     debug(f'Message received from {user.id} @{user.username}: {msg.text}')
-
-    if AUTHORIZED_USERS and user.username not in AUTHORIZED_USERS:
-         return
 
     if 'quiz' not in context.user_data:
 
