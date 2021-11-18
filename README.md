@@ -16,6 +16,10 @@ Quick start
 4. Install requirements
 
         pip install -r requirements.txt
+        
+        or
+        
+        pip3 install -r requirements.txt
 
 5. Run the bot backend:
 
