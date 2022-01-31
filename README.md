@@ -7,7 +7,7 @@ Quick start
 
 1. Clone this repository:
 
-        git clone --depth 1 https://github.com/WalkingDead3/QuizBot -b main
+        git clone --depth 1 https://github.com/ShelbyJunk/QuizBot -b main
 
 2. Create your own Telegram bot in @BotFather and get the bot token.
 
