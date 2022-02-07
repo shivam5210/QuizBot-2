@@ -1,0 +1,28 @@
+{
+   "name": "shivayquiz",
+   "description": "hmm no time",
+   "repository": "https://github.com/aksr-aashish/QuizBot ",
+   "addons": [
+      {
+         "options": {
+            "version": "12"
+         },
+         "plan": "heroku-postgresql"
+      }
+   ],
+   "buildpacks": [
+    {
+      "url": "heroku/python"
+    }     
+  ],      
+   "env": {
+      "API_TOKEN": {
+         "description": "id",
+         "value": ""
+      },
+      "ADMIN_ID": {
+         "description": "admin ID Here.",
+         "value": ""
+      }
+   }
+}
