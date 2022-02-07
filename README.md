@@ -28,5 +28,5 @@ Quick start
 6. Open your bot in Telegram and start the quiz.
 
 ##heruku##
-<p align="center"><a href="https://heroku.com/deploy?template=https://github.com/shivam52108/QuizBot"><img src="https://telegra.ph/file/4a7d5037bcdd1e74a517a.jpg" width="50"></a></p>
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/shivam5210/Quizbot-2)
 
